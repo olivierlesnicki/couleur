@@ -1,0 +1,40 @@
+{
+  "name": "couleur",
+  "version": "1.0.0",
+  "description": "A node.js port of color-thief.js library by lokesh - https://github.com/lokesh/color-thief.",
+  "homepage": "https://github.com/olivierlesnicki/couleur",
+  "author": "Olivier Lesnicki (https://github.com/olivierlesnicki)",
+  "keywords": [
+    "image",
+    "dominant",
+    "contrast",
+    "thief",
+    "color",
+    "node"
+  ],
+  "contributors": [
+    "Lokesh Dhakar (https://github.com/lokesh)",
+    "Olivier Lesnicki (https://github.com/olivierlesnicki)"
+  ],
+  "bugs": {
+    "url": "http://github.com/olivierlesnicki/couleur/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://github.com/olivierlesnicki/couleur/raw/master/LICENSE"
+  },
+  "main": "couleur.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/olivierlesnicki/couleur.git"
+  },
+  "engines": {
+    "node": ">=0.10.21"
+  },
+  "dependencies": {
+    "quantize": "~1.0.0",
+    "canvas": "~1.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
