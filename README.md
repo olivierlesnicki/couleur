@@ -11,7 +11,7 @@ Install
 Quick Overview
 --------------
 
-This is a node.js port of Lokesh Dhakar's [color-thief](https://github.com/lokesh/color-thief) library for JavaScript. Extended documentation is available on color-thief page.
+This is a node.js port of Lokesh Dhakar's [color-thief](https://github.com/lokesh/color-thief) library for JavaScript. Original documentation is available at https://github.com/lokesh/color-thief.
 
 Authors
 -------
