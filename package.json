@@ -32,8 +32,8 @@
     "node": ">=0.10.21"
   },
   "dependencies": {
-    "quantize": "~1.0.0",
-    "canvas": "~1.1.3"
+    "quantize": "1.0.x",
+    "canvas": "1.1.x"
   },
   "devDependencies": {},
   "scripts": {}
