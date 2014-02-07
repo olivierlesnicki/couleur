@@ -26,7 +26,7 @@ var Image = Canvas.Image
   It also simplifies some of the canvas context manipulation
   with a set of helper functions.
 */
-var CanvasImage = function(path) {
+var CanvasImage = function(path, _callback) {
 
     var img, self;
 
@@ -34,7 +34,7 @@ var CanvasImage = function(path) {
     img = new Image;
 
     img.onerror = function(err) {
-        throw err;
+        _callback(err);
     }
 
     img.onload = function() {
@@ -46,6 +46,8 @@ var CanvasImage = function(path) {
         self.height = img.height;
 
         self.context.drawImage(img, 0, 0, img.width, img.height);
+
+        _callback();
 
     }
 
@@ -89,10 +91,14 @@ var ColorThief = function() {};
  * most dominant color.
  *
  * */
-ColorThief.prototype.getColor = function(sourceImage, quality) {
-    var palette = this.getPalette(sourceImage, 5, quality);
-    var dominantColor = palette[0];
-    return dominantColor;
+ColorThief.prototype.getColor = function(sourceImage, quality, _callback) {
+    var palette = this.getPalette(sourceImage, 5, quality, function(err, palette) {
+        if (err) {
+            _callback(err);
+        } else {
+            _callback(null, palette[0]);
+        }
+    });
 };
 
 
@@ -113,7 +119,7 @@ ColorThief.prototype.getColor = function(sourceImage, quality) {
  *
  *
  */
-ColorThief.prototype.getPalette = function(path, colorCount, quality) {
+ColorThief.prototype.getPalette = function(path, colorCount, quality, _callback) {
 
     if (typeof colorCount === 'undefined') {
         colorCount = 10;
@@ -123,36 +129,45 @@ ColorThief.prototype.getPalette = function(path, colorCount, quality) {
     };
 
     // Create custom CanvasImage object
-    var image = new CanvasImage(path);
-    var imageData = image.getImageData();
-    var pixels = imageData.data;
-    var pixelCount = image.getPixelCount();
+    var image = new CanvasImage(path, function(err) {
 
-    // Store the RGB values in an array format suitable for quantize function
-    var pixelArray = [];
-    for (var i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
-        offset = i * 4;
-        r = pixels[offset + 0];
-        g = pixels[offset + 1];
-        b = pixels[offset + 2];
-        a = pixels[offset + 3];
-        // If pixel is mostly opaque and not white
-        if (a >= 125) {
-            if (!(r > 250 && g > 250 && b > 250)) {
-                pixelArray.push([r, g, b]);
+        if (err) {
+            _callback(err);
+        } else {
+
+            var imageData = image.getImageData();
+            var pixels = imageData.data;
+            var pixelCount = image.getPixelCount();
+
+            // Store the RGB values in an array format suitable for quantize function
+            var pixelArray = [];
+            for (var i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
+                offset = i * 4;
+                r = pixels[offset + 0];
+                g = pixels[offset + 1];
+                b = pixels[offset + 2];
+                a = pixels[offset + 3];
+                // If pixel is mostly opaque and not white
+                if (a >= 125) {
+                    if (!(r > 250 && g > 250 && b > 250)) {
+                        pixelArray.push([r, g, b]);
+                    }
+                }
             }
+
+            // Send array to quantize function which clusters values
+            // using median cut algorithm
+            var cmap = quantize(pixelArray, colorCount);
+            var palette = cmap.palette();
+
+            // Clean up
+            image.removeCanvas();
+
+            _callback(null, palette);
+
         }
-    }
 
-    // Send array to quantize function which clusters values
-    // using median cut algorithm
-    var cmap = quantize(pixelArray, colorCount);
-    var palette = cmap.palette();
-
-    // Clean up
-    image.removeCanvas();
-
-    return palette;
+    });
 
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "couleur",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A node.js port of color-thief.js library by lokesh - https://github.com/lokesh/color-thief.",
   "homepage": "https://github.com/olivierlesnicki/couleur",
   "author": "Olivier Lesnicki (https://github.com/olivierlesnicki)",
