@@ -155,3 +155,5 @@ ColorThief.prototype.getPalette = function(path, colorCount, quality) {
     return palette;
 
 };
+
+module.exports = new ColorThief();
