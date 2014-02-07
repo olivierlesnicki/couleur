@@ -47,7 +47,7 @@ var CanvasImage = function(path, _callback) {
 
         self.context.drawImage(img, 0, 0, img.width, img.height);
 
-        _callback();
+        _callback(null, self);
 
     }
 
@@ -129,7 +129,7 @@ ColorThief.prototype.getPalette = function(path, colorCount, quality, _callback)
     };
 
     // Create custom CanvasImage object
-    var image = new CanvasImage(path, function(err) {
+    var image = new CanvasImage(path, function(err, image) {
 
         if (err) {
             _callback(err);
